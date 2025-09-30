@@ -15,20 +15,26 @@ jobs:
       contents: write
       pull-requests: read
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.10]
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set node
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.7
+
+      - name: Use Node.js ${{ matrix.node-version }}
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.10'
+          node-version: ${{ matrix.node-version }}
           registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        uses: pnpm/action-setup@v3
-        with:
-          run_install: |
-            - args: [--frozen-lockfile]
+        run: pnpm install --frozen-lockfile
 
       - name: Extract version from package.json
         uses: sergeysova/jq-action@v2
