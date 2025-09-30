@@ -10,27 +10,36 @@ permissions:
 
 jobs:
   release:
-    if: github.repository == 'quitsmx/test1'
+    if: github.repository == 'quitsmx/eslint-plugin-redos'
     permissions:
       contents: write
       pull-requests: read
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set node
       - uses: actions/setup-node@v4
         with:
           node-version: '20.10'
           registry-url: 'https://registry.npmjs.org'
+
       - name: Install dependencies
-        run: pnpm i --frozen-lockfile
+        uses: pnpm/action-setup@v3
+        with:
+          run_install: |
+            - args: [--frozen-lockfile]
+
       - name: Extract version from package.json
         uses: sergeysova/jq-action@v2
         id: version
         with:
           cmd: 'jq .version package.json -r'
+
       - name: Get latest tag
         uses: actions-ecosystem/action-get-latest-tag@v1
         id: get-latest-tag
+
       - name: Publish GitHub Release
         uses: release-drafter/release-drafter@v6
         if: ${{ contains(steps.get-latest-tag.outputs.tag, steps.version.outputs.value) == false }}
@@ -39,6 +48,7 @@ jobs:
           publish: true
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
       - name: Publish to NPM
         if: ${{ contains(steps.get-latest-tag.outputs.tag, steps.version.outputs.value) == false }}
         run: pnpm publish --access public --no-git-checks --report-summary
