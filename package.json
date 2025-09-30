@@ -1,9 +1,11 @@
 {
   "name": "@quitsmx/only-a-test",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "keywords": [],
-  "files": ["main"],
+  "files": [
+    "main"
+  ],
   "license": "MIT",
   "author": "quitsmx <quitsmx@gmail.com>",
   "type": "module",
