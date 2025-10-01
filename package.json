@@ -1,11 +1,14 @@
 {
   "name": "@quitsmx/only-a-test",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "",
   "keywords": [],
   "homepage": "https://github.com/quitsmx/test1",
   "bugs": "https://github.com/quitsmx/test1/issues",
-  "repository": "github:quitsmx/test1.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quitsmx/test1.git"
+  },
   "license": "MIT",
   "author": "quitsmx <quitsmx@gmail.com>",
   "type": "module",
