@@ -1,29 +1,8 @@
 name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
-categories:
-  - title: '🚀 Features'
-    labels:
-      - 'feat'
-      - 'enhancement'
-  - title: '🐛 Bug Fixes'
-    labels:
-      - 'fix'
-      - 'revert'
-      - 'bug'
-  - title: '🧰 Maintenance'
-    label: 'ci'
-    label: 'chore'
-    label: 'refactor'
-  - title: '📚 Docs'
-    label: 'docs'
-  - title: '🔎 Tests'
-    label: 'test'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
-disable-autolabeler: true
+change-title-escapes: '\<*_&'
 template: |
   ## What’s Changed
 
   $CHANGES
-
-  Contributors: $CONTRIBUTORS

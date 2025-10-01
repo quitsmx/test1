@@ -55,6 +55,7 @@ jobs:
         if: steps.check.outputs.changed == 'true'
         uses: release-drafter/release-drafter@v6
         with:
+          disable-autolabeler: true
           version: ${{ steps.check.outputs.version }}
           publish: true
         env:
