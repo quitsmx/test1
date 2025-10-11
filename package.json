@@ -1,6 +1,6 @@
 {
   "name": "@quitsmx/only-a-test",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "",
   "keywords": [],
   "homepage": "https://github.com/quitsmx/test1",
@@ -14,7 +14,7 @@
   "type": "module",
   "main": "src/main.js",
   "files": [
-    "main"
+    "src"
   ],
   "scripts": {
     "prepack": "echo \"Packing test1 now...\" && exit 0",
