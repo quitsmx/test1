@@ -52,7 +52,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Testing environment variables
-        run: echo "«${{secrets.TEMP_TEST}}»" && echo "«$NPM_TEST0»' && echo "«$NPM_TEST1»"
+        run: echo "«${{secrets.TEMP_TEST}}»" && echo X$NPM_TEST0 && echo Y$NPM_TEST1
         env:
           NPM_TEST0: ${{secrets.TEMP_TEST}}
           NPM_TEST1: ${{secrets.NPM_TEST}}
