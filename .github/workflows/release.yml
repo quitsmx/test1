@@ -52,9 +52,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Testing environment variables
-        run: echo ${{secrets.NPM_TEST}} && echo '$NPM_TEST0'
+        run: echo "«${{secrets.TEMP_TEST}}»" && echo "«$NPM_TEST0»' && echo "«$NPM_TEST1»"
         env:
-          NPM_TEST0: ${{secrets.NPM_TEST}}
+          NPM_TEST0: ${{secrets.TEMP_TEST}}
+          NPM_TEST1: ${{secrets.NPM_TEST}}
 
       - name: Publish GitHub Release
         if: steps.check.outputs.changed == 'true'
