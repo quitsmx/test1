@@ -1,1 +1,3 @@
-export default {}
+export default {
+  done: 2,
+}
