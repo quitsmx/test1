@@ -15,6 +15,7 @@ jobs:
       contents: write
       pull-requests: read
     runs-on: ubuntu-latest
+    environment: Release
     strategy:
       matrix:
         node-version: [20.12.0]
