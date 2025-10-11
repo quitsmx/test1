@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20.10.0]
+        node-version: [20.12.0]
 
     steps:
       - uses: actions/checkout@v5
@@ -45,18 +45,16 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           registry-url: https://registry.npmjs.org
-          cache: 'pnpm'
+          cache: pnpm
 
       - name: Install dependencies
         if: steps.check.outputs.changed == 'true'
         run: pnpm install --frozen-lockfile
 
-      - name: Publish to NPM
-        if: steps.check.outputs.changed == 'true'
-        shell: bash
-        run: pnpm publish --access public --no-git-checks
+      - name: Testing environment variables
+        run: echo ${{secrets.NPM_TEST}} && echo '$NPM_TEST0'
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TEST0: ${{secrets.NPM_TEST}}
 
       - name: Publish GitHub Release
         if: steps.check.outputs.changed == 'true'
@@ -67,3 +65,9 @@ jobs:
           publish: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to NPM
+        if: steps.check.outputs.changed == 'true'
+        uses: simenandre/publish-with-pnpm@v2
+        with:
+          npm-auth-token: ${{ secrets.NPM_TOKEN }}
