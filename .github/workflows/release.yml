@@ -52,11 +52,11 @@ jobs:
         if: steps.check.outputs.changed == 'true'
         run: pnpm install --frozen-lockfile
 
-      - name: Testing environment variables
-        run: echo "«${{secrets.TEMP_TEST}}»" && echo X$NPM_TEST0 && echo Y$NPM_TEST1
+      - name: Publish to NPM
+        if: steps.check.outputs.changed == 'true'
+        run: pnpm --access public --no-git-checks
         env:
-          NPM_TEST0: ${{secrets.TEMP_TEST}}
-          NPM_TEST1: ${{secrets.NPM_TEST}}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish GitHub Release
         if: steps.check.outputs.changed == 'true'
@@ -67,9 +67,3 @@ jobs:
           publish: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish to NPM
-        if: steps.check.outputs.changed == 'true'
-        uses: simenandre/publish-with-pnpm@v2
-        with:
-          npm-auth-token: ${{ secrets.NPM_TOKEN }}
