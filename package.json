@@ -1,6 +1,6 @@
 {
   "name": "@quitsmx/only-a-test",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "",
   "keywords": [],
   "homepage": "https://github.com/quitsmx/test1",
@@ -30,9 +30,9 @@
     "eslint": "^9.36.0",
     "prettier": "^3.6.2"
   },
-  "packageManager": "pnpm@10.17.1",
+  "packageManager": "pnpm@10.18.2",
   "engines": {
-    "node": ">=20.10"
+    "node": ">=20.12.0"
   },
   "publishConfig": {
     "provenance": true
