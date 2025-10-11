@@ -17,9 +17,6 @@ jobs:
       id-token: write
     runs-on: ubuntu-latest
     environment: Release
-    strategy:
-      matrix:
-        node-version: [20.12.0]
 
     steps:
       - uses: actions/checkout@v5
@@ -36,24 +33,26 @@ jobs:
 
       - name: Install pnpm
         if: steps.check.outputs.changed == 'true'
-        uses: pnpm/action-setup@v4
-        with:
-          run_install: false
+        uses:
+          pnpm/action-setup@v4
           # La versión de pnpm está en package.json#packageManager
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js
         if: steps.check.outputs.changed == 'true'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '20.12.0'
           registry-url: https://registry.npmjs.org
-          cache: pnpm
 
       - name: Install dependencies
         if: steps.check.outputs.changed == 'true'
         run: pnpm install --frozen-lockfile
 
-      - name: Publish to NPM
+      - if: steps.check.outputs.changed == 'true'
+        name: Update npm
+        run: npm install -g npm@latest
+
+      - name: Publish to npm
         if: steps.check.outputs.changed == 'true'
         run: pnpm publish --access public --no-git-checks
         env:
@@ -68,3 +67,16 @@ jobs:
           publish: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - if: steps.check.outputs.changed == 'true'
+        name: Reset Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '20.12.0'
+          registry-url: https://npm.pkg.github.com
+
+      - if: steps.check.outputs.changed == 'true'
+        name: Publish to GitHub
+        run: pnpm publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
