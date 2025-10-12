@@ -18,6 +18,8 @@ jobs:
       pull-requests: read
     runs-on: ubuntu-latest
     environment: Release
+    env:
+      NODE_VERSION: '20.19.0'
 
     steps:
       - uses: actions/checkout@v5
@@ -38,11 +40,11 @@ jobs:
           pnpm/action-setup@v4
           # La versión de pnpm está en package.json#packageManager
 
-      - name: Use Node.js
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         if: steps.check.outputs.changed == 'true'
         uses: actions/setup-node@v5
         with:
-          node-version: '20.17.0'
+          node-version: '${{ env.NODE_VERSION }}'
           registry-url: https://registry.npmjs.org
           always-auth: true
 
@@ -58,7 +60,7 @@ jobs:
         if: steps.check.outputs.changed == 'true'
         run: pnpm publish --access public --no-git-checks
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ''
 
       - name: Publish GitHub Release
         if: steps.check.outputs.changed == 'true'
