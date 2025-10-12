@@ -13,8 +13,9 @@ jobs:
     if: github.repository == 'quitsmx/test1'
     permissions:
       contents: write
-      pull-requests: read
       id-token: write
+      packages: write
+      pull-requests: read
     runs-on: ubuntu-latest
     environment: Release
 
@@ -53,11 +54,11 @@ jobs:
         name: Update npm
         run: npm install -g npm@11.5.1
 
-      # - name: Publish to npm
-      #   if: steps.check.outputs.changed == 'true'
-      #   run: pnpm publish --access public --no-git-checks
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish to npm
+        if: steps.check.outputs.changed == 'true'
+        run: pnpm publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish GitHub Release
         if: steps.check.outputs.changed == 'true'
@@ -69,17 +70,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - if: steps.check.outputs.changed == 'true'
-        name: Reset Node.js
+      - name: Reset Node.js
+        if: steps.check.outputs.changed == 'true'
         uses: actions/setup-node@v5
         with:
-          node-version: '20.17.0'
           registry-url: https://npm.pkg.github.com
-          always-auth: true
-          scope: '@quitsmx'
 
-      - if: steps.check.outputs.changed == 'true'
-        name: Publish to GitHub
+      - name: Publish to GitHub
+        if: steps.check.outputs.changed == 'true'
         run: pnpm publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
