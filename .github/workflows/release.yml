@@ -44,9 +44,8 @@ jobs:
         if: steps.check.outputs.changed == 'true'
         uses: actions/setup-node@v5
         with:
-          node-version: '${{ env.NODE_VERSION }}'
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: https://registry.npmjs.org
-          always-auth: true
 
       - name: Install dependencies
         if: steps.check.outputs.changed == 'true'
