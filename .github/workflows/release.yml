@@ -53,11 +53,11 @@ jobs:
         name: Update npm
         run: npm install -g npm@11.5.1
 
-      - name: Publish to npm
-        if: steps.check.outputs.changed == 'true'
-        run: pnpm publish --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # - name: Publish to npm
+      #   if: steps.check.outputs.changed == 'true'
+      #   run: pnpm publish --access public --no-git-checks
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish GitHub Release
         if: steps.check.outputs.changed == 'true'
@@ -73,8 +73,10 @@ jobs:
         name: Reset Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: '20.12.0'
+          node-version: '20.17.0'
           registry-url: https://npm.pkg.github.com
+          always-auth: true
+          scope: '@quitsmx'
 
       - if: steps.check.outputs.changed == 'true'
         name: Publish to GitHub
